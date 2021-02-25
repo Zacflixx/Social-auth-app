@@ -30,56 +30,56 @@ const EditProfileScreen = () => {
   const [transferred, setTransferred] = useState(0);
   const [userData, setUserData] = useState(null);
 
-  const getUser = async() => {
+  const getUser = async () => {
     const currentUser = await firestore()
-    .collection('users')
-    .doc(user.uid)
-    .get()
-    .then((documentSnapshot) => {
-      if( documentSnapshot.exists ) {
-        console.log('User Data', documentSnapshot.data());
-        setUserData(documentSnapshot.data());
-      }
-    })
-  }
+      .collection('users')
+      .doc(user.uid)
+      .get()
+      .then((documentSnapshot) => {
+        if (documentSnapshot.exists) {
+          console.log('User Data', documentSnapshot.data());
+          setUserData(documentSnapshot.data());
+        }
+      });
+  };
 
-  const handleUpdate = async() => {
+  const handleUpdate = async () => {
     let imgUrl = await uploadImage();
 
-    if( imgUrl == null && userData.userImg ) {
+    if (imgUrl == null && userData.userImg) {
       imgUrl = userData.userImg;
     }
 
     firestore()
-    .collection('users')
-    .doc(user.uid)
-    .update({
-      fname: userData.fname,
-      lname: userData.lname,
-      about: userData.about,
-      phone: userData.phone,
-      country: userData.country,
-      city: userData.city,
-      userImg: imgUrl,
-    })
-    .then(() => {
-      console.log('User Updated!');
-      Alert.alert(
-        'Profile Updated!',
-        'Your profile has been updated successfully.'
-      );
-    })
-  }
+      .collection('users')
+      .doc(user.uid)
+      .update({
+        fname: userData.fname,
+        lname: userData.lname,
+        about: userData.about,
+        phone: userData.phone,
+        country: userData.country,
+        city: userData.city,
+        userImg: imgUrl,
+      })
+      .then(() => {
+        console.log('User Updated!');
+        Alert.alert(
+          'Profile Updated!',
+          'Your profile has been updated successfully.',
+        );
+      });
+  };
 
   const uploadImage = async () => {
-    if( image == null ) {
+    if (image == null) {
       return null;
     }
     const uploadUri = image;
     let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
 
     // Add timestamp to File Name
-    const extension = filename.split('.').pop(); 
+    const extension = filename.split('.').pop();
     const name = filename.split('.').slice(0, -1).join('.');
     filename = name + Date.now() + '.' + extension;
 
@@ -114,12 +114,10 @@ const EditProfileScreen = () => {
       //   'Your image has been uploaded to the Firebase Cloud Storage Successfully!',
       // );
       return url;
-
     } catch (e) {
       console.log(e);
       return null;
     }
-
   };
 
   useEffect(() => {
@@ -365,6 +363,27 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
   },
+  action: {
+    flexDirection: 'row',
+    marginTop: 10,
+    marginBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f2f2f2',
+    paddingBottom: 5,
+  },
+  actionError: {
+    flexDirection: 'row',
+    marginTop: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#FF0000',
+    paddingBottom: 5,
+  },
+  textInput: {
+    flex: 1,
+    marginTop: Platform.OS === 'ios' ? 0 : -12,
+    paddingLeft: 10,
+    color: '#333333',
+  },
   panelHeader: {
     alignItems: 'center',
   },
@@ -396,26 +415,5 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: 'bold',
     color: 'white',
-  },
-  action: {
-    flexDirection: 'row',
-    marginTop: 10,
-    marginBottom: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f2f2f2',
-    paddingBottom: 5,
-  },
-  actionError: {
-    flexDirection: 'row',
-    marginTop: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#FF0000',
-    paddingBottom: 5,
-  },
-  textInput: {
-    flex: 1,
-    marginTop: Platform.OS === 'ios' ? 0 : -12,
-    paddingLeft: 10,
-    color: '#333333',
   },
 });

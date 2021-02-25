@@ -8,7 +8,7 @@ import OnboardingScreen from '../screens/OnboardingScreen';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import AsyncStorage from '@react-native-community/async-storage';
-import { GoogleSignin } from '@react-native-community/google-signin';
+import {GoogleSignin} from '@react-native-community/google-signin';
 
 const Stack = createStackNavigator();
 
@@ -25,11 +25,11 @@ const AuthStack = () => {
         setIsFirstLaunch(false);
       }
     }); // Add some error handling, also you can simply do setIsFirstLaunch(null)
-  
+
     GoogleSignin.configure({
-      webClientId: 'YOUR_APP_WEB_CLIENT_ID',
+      webClientId:
+        '281134770476-b2bg3ll2p0rd3h17l7rv0lkp11vutl38.apps.googleusercontent.com',
     });
-  
   }, []);
 
   if (isFirstLaunch === null) {
@@ -64,7 +64,7 @@ const AuthStack = () => {
           },
           headerLeft: () => (
             <View style={{marginLeft: 10}}>
-              <FontAwesome.Button 
+              <FontAwesome.Button
                 name="long-arrow-left"
                 size={25}
                 backgroundColor="#f9fafd"
